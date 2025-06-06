@@ -1,0 +1,97 @@
+#!/usr/bin/env mage
+# 🧙‍♂️ Mage VSCode Extension Test File
+# This file demonstrates various Mage language features
+
+##
+# Welcome to Mage!
+# Test syntax highlighting, snippets, and features
+##
+
+# Variable declarations
+conjure wizard_name = "Gandalf"
+conjure spell_power = 42
+conjure is_magical = true
+
+# Output with string interpolation
+incant "🔮 Welcome, $wizard_name!"
+incant "Your spell power is: $spell_power"
+
+# Conditional magic (scry/lest)
+scry spell_power > 40 {
+    incant "✨ You are a powerful wizard!"
+} lest {
+    incant "⚡ Keep practicing your magic!"
+}
+
+# Traditional scry-lest
+scry is_magical {
+    incant "🌟 Magic flows through you!"
+} lest {
+    incant "🔨 You prefer practical solutions!"
+}
+
+# For loops with chant
+incant "🔄 Counting spell components:"
+chant ingredient from 1 to 5 {
+    incant "Adding ingredient #$ingredient"
+}
+
+incant "⚡ Charging spell with steps:"
+chant power from 0 to 20 step 5 {
+    incant "Power level: $power"
+}
+
+# Basic loop
+incant "🌀 Basic magical loop:"
+loop {
+    incant "Casting spell..."
+}
+
+# Functions (enchantments)
+enchant cast_healing_spell(target) {
+    incant "🩹 Casting healing spell on $target"
+    incant "✅ $target has been healed!"
+}
+
+enchant calculate_damage(base_damage, multiplier) {
+    conjure total = base_damage * multiplier
+    incant "💥 Total damage: $total"
+    # Functions can return values (future feature)
+}
+
+# Function calls
+cast cast_healing_spell("Frodo")
+cast calculate_damage(10, 3)
+
+# Shell command execution
+incant "🖥️ System information:"
+evoke "echo 'Current directory:'"
+evoke "pwd 2>/dev/null || cd"
+
+# Cross-platform commands
+incant "📁 Listing files:"
+evoke "ls -la 2>/dev/null || dir"
+
+# Package management example
+incant "📦 Checking for package managers:"
+evoke "which brew >/dev/null && echo 'Homebrew available' || echo 'Homebrew not found'"
+evoke "which choco >/dev/null && echo 'Chocolatey available' || echo 'Chocolatey not found'"
+
+# String examples for highlighting test
+conjure simple_string = "Hello, World!"
+conjure interpolated_string = "Welcome to $wizard_name's workshop!"
+conjure complex_interpolation = "Power: ${spell_power * 2} (doubled)"
+conjure single_quoted = 'This uses single quotes'
+
+# Number examples
+conjure integer = 42
+conjure float = 3.14159
+conjure negative = -10
+
+# Error handling
+scry spell_power < 0 {
+    curse "💀 Invalid spell power! Cannot be negative."
+}
+
+incant "🎉 Test script completed successfully!"
+incant "Try using snippets by typing: conjure, incant, chant, etc." 

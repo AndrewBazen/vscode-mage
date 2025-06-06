@@ -1,0 +1,144 @@
+{
+  "name": "mage-language",
+  "displayName": "Mage Language Support",
+  "description": "Language support for the Mage scripting language - magic-themed cross-platform scripting",
+  "version": "0.1.0",
+  "publisher": "mage-lang",
+  "engines": {
+    "vscode": "^1.74.0"
+  },
+  "categories": [
+    "Programming Languages",
+    "Syntax Highlighting"
+  ],
+  "keywords": [
+    "mage",
+    "scripting",
+    "magic",
+    "cross-platform",
+    "automation"
+  ],
+  "main": "./out/extension.js",
+  "contributes": {
+    "languages": [
+      {
+        "id": "mage",
+        "aliases": [
+          "Mage",
+          "mage"
+        ],
+        "extensions": [
+          ".mage"
+        ],
+        "configuration": "./language-configuration.json",
+        "icon": {
+          "light": "./icons/mage-light.svg",
+          "dark": "./icons/mage-dark.svg"
+        }
+      }
+    ],
+    "grammars": [
+      {
+        "language": "mage",
+        "scopeName": "source.mage",
+        "path": "./syntaxes/mage.tmLanguage.json"
+      }
+    ],
+    "commands": [
+      {
+        "command": "mage.runScript",
+        "title": "Run Mage Script",
+        "category": "Mage"
+      },
+      {
+        "command": "mage.runRepl",
+        "title": "Start Mage REPL",
+        "category": "Mage"
+      },
+      {
+        "command": "mage.formatDocument",
+        "title": "Format Mage Document",
+        "category": "Mage"
+      }
+    ],
+    "menus": {
+      "editor/context": [
+        {
+          "when": "resourceExtname == .mage",
+          "command": "mage.runScript",
+          "group": "navigation"
+        }
+      ],
+      "editor/title": [
+        {
+          "when": "resourceExtname == .mage",
+          "command": "mage.runScript",
+          "group": "navigation"
+        }
+      ]
+    },
+    "keybindings": [
+      {
+        "command": "mage.runScript",
+        "key": "ctrl+f5",
+        "when": "resourceExtname == .mage"
+      },
+      {
+        "command": "mage.runRepl",
+        "key": "ctrl+shift+r",
+        "when": "resourceExtname == .mage"
+      }
+    ],
+    "configuration": {
+      "title": "Mage Language",
+      "properties": {
+        "mage.executablePath": {
+          "type": "string",
+          "default": "mage",
+          "description": "Path to the mage executable"
+        },
+        "mage.defaultShell": {
+          "type": "string",
+          "default": "",
+          "description": "Default shell to use for mage scripts"
+        },
+        "mage.enableAutoCompletion": {
+          "type": "boolean",
+          "default": true,
+          "description": "Enable auto-completion for mage language"
+        },
+        "mage.enableSyntaxHighlighting": {
+          "type": "boolean",
+          "default": true,
+          "description": "Enable syntax highlighting for mage files"
+        }
+      }
+    },
+    "snippets": [
+      {
+        "language": "mage",
+        "path": "./snippets/mage.json"
+      }
+    ]
+  },
+  "scripts": {
+    "vscode:prepublish": "npm run compile",
+    "compile": "tsc -p ./",
+    "watch": "tsc -watch -p ./"
+  },
+  "devDependencies": {
+    "@types/node": "^18.0.0",
+    "@types/vscode": "^1.74.0",
+    "typescript": "^4.9.5"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/your-username/mage-vscode-extension.git"
+  },
+  "bugs": {
+    "url": "https://github.com/your-username/mage-vscode-extension/issues"
+  },
+  "homepage": "https://github.com/your-username/mage-vscode-extension#readme",
+  "license": "MIT",
+  "author": ""
+}
