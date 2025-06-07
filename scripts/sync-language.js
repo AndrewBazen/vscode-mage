@@ -11,9 +11,9 @@ const { execSync } = require('child_process');
 const CONFIG = {
   // Update these URLs to point to your actual Mage language repository
   MAIN_REPO_URL: 'https://github.com/AndrewBazen/mage',
-  GRAMMAR_FILE_URL: 'https://raw.githubusercontent.com/AndrewBazen/mage/editor-support/vscode/syntaxes/mage.tmLanguage.json',
-  LANGUAGE_CONFIG_URL: 'https://raw.githubusercontent.com/AndrewBazen/mage/editor-support/vscode/language-configuration.json',
-  SNIPPETS_URL: 'https://raw.githubusercontent.com/AndrewBazen/mage/editor-support/vscode/snippets/mage.json',
+  GRAMMAR_FILE_URL: 'https://raw.githubusercontent.com/AndrewBazen/mage/main/editor-support/vscode/syntaxes/mage.tmLanguage.json',
+  LANGUAGE_CONFIG_URL: 'https://raw.githubusercontent.com/AndrewBazen/mage/main/editor-support/vscode/language-configuration.json',
+  SNIPPETS_URL: 'https://raw.githubusercontent.com/AndrewBazen/mage/main/editor-support/vscode/snippets/mage.json',
   EXAMPLES_URL: 'https://raw.githubusercontent.com/AndrewBazen/mage/examples',
 };
 
