@@ -34,10 +34,6 @@ jobs:
   sync-and-build:
     runs-on: ubuntu-latest
     
-    strategy:
-      matrix:
-        node-version: [18.x, 20.x]
-    
     steps:
     - name: Checkout code
       uses: actions/checkout@v4
@@ -45,10 +41,10 @@ jobs:
         fetch-depth: 0
         token: ${{ secrets.GITHUB_TOKEN }}
 
-    - name: Setup Node.js ${{ matrix.node-version }}
+    - name: Setup Node.js
       uses: actions/setup-node@v4
       with:
-        node-version: ${{ matrix.node-version }}
+        node-version: 'latest'
         cache: 'npm'
 
     - name: Install dependencies
@@ -57,6 +53,12 @@ jobs:
     - name: Sync language files
       run: npm run sync-language
       continue-on-error: true
+
+    - name: Pull latest changes
+      run: |
+        git config --local user.email "action@github.com"
+        git config --local user.name "GitHub Action"
+        git pull origin master
 
     - name: Check for changes
       id: changes
@@ -85,7 +87,7 @@ jobs:
     - name: Upload VSIX artifact
       uses: actions/upload-artifact@v4
       with:
-        name: mage-language-${{ matrix.node-version }}.vsix
+        name: mage-language.vsix
         path: '*.vsix'
         retention-days: 30
 
@@ -113,25 +115,21 @@ jobs:
     - name: Setup Node.js
       uses: actions/setup-node@v4
       with:
-        node-version: '20.x'
+        node-version: 'latest'
         cache: 'npm'
 
     - name: Install dependencies
       run: npm ci
 
-    - name: Pull latest changes
+    - name: Sync and build
       run: |
-        git config --local user.email "action@github.com"
-        git config --local user.name "GitHub Action"
-        git pull origin master
-
-    - name: Build
-      run: npm run build
+        npm run sync-language
+        npm run build
 
     - name: Download artifacts
       uses: actions/download-artifact@v4
       with:
-        name: mage-language-20.x.vsix
+        name: mage-language.vsix
         path: ./artifacts
 
     - name: Get package version
