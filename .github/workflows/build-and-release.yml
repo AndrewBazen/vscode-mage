@@ -155,15 +155,7 @@ jobs:
           code --install-extension mage-language-${{ steps.package_version.outputs.version }}.vsix
           ```
         draft: false
-        prerelease: false
-
-    - name: Publish to VS Code Marketplace
-      if: github.event_name == 'workflow_dispatch'
-      run: |
-        npm install -g @vscode/vsce
-        vsce publish -p $VSCE_TOKEN
-      env:
-        VSCE_TOKEN: $VSCE_TOKEN
+        prerelease: true
 
   notify-updates:
     needs: sync-and-build
