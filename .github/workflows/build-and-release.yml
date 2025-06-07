@@ -156,6 +156,18 @@ jobs:
           ```
         draft: false
         prerelease: true
+      id: create_release
+
+    - name: Upload Release Asset
+      if: github.event_name == 'workflow_dispatch'
+      uses: actions/upload-release-asset@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        upload_url: ${{ steps.create_release.outputs.upload_url }}
+        asset_path: ./artifacts/*.vsix
+        asset_name: mage-language-${{ steps.package_version.outputs.version }}.vsix
+        asset_content_type: application/octet-stream
 
   notify-updates:
     needs: sync-and-build
