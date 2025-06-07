@@ -1,0 +1,171 @@
+name: Build and Release VSCode Extension
+
+on:
+  push:
+    branches: [ main, develop ]
+  pull_request:
+    branches: [ main ]
+  schedule:
+    # Check for updates from main language repo daily at 2 AM UTC
+    - cron: '0 2 * * *'
+  workflow_dispatch:
+    inputs:
+      release_type:
+        description: 'Release type'
+        required: false
+        default: 'patch'
+        type: choice
+        options:
+          - patch
+          - minor
+          - major
+      force_sync:
+        description: 'Force sync from main language repo'
+        required: false
+        default: false
+        type: boolean
+
+jobs:
+  sync-and-build:
+    runs-on: ubuntu-latest
+    
+    strategy:
+      matrix:
+        node-version: [18.x, 20.x]
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      with:
+        fetch-depth: 0
+
+    - name: Setup Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@v4
+      with:
+        node-version: ${{ matrix.node-version }}
+        cache: 'npm'
+
+    - name: Install dependencies
+      run: npm ci
+
+    - name: Sync language files
+      run: npm run sync-language
+      continue-on-error: true
+
+    - name: Check for changes
+      id: changes
+      run: |
+        if git diff --quiet; then
+          echo "has_changes=false" >> $GITHUB_OUTPUT
+        else
+          echo "has_changes=true" >> $GITHUB_OUTPUT
+          echo "Files changed:"
+          git diff --name-only
+        fi
+
+    - name: Lint code
+      run: npm run lint
+
+    - name: Build extension
+      run: npm run build
+
+    - name: Run tests
+      run: npm test
+      continue-on-error: true
+
+    - name: Package extension
+      run: npm run package
+
+    - name: Upload VSIX artifact
+      uses: actions/upload-artifact@v4
+      with:
+        name: mage-language-${{ matrix.node-version }}.vsix
+        path: '*.vsix'
+        retention-days: 30
+
+    - name: Commit and push changes (if any)
+      if: steps.changes.outputs.has_changes == 'true' && github.ref == 'refs/heads/main'
+      run: |
+        git config --local user.email "action@github.com"
+        git config --local user.name "GitHub Action"
+        git add .
+        git commit -m "chore: sync language files from main repository [skip ci]"
+        git push
+
+  release:
+    needs: sync-and-build
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main' && (github.event_name == 'workflow_dispatch' || github.event_name == 'schedule')
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      with:
+        fetch-depth: 0
+        token: ${{ secrets.GITHUB_TOKEN }}
+
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '20.x'
+        cache: 'npm'
+
+    - name: Install dependencies
+      run: npm ci
+
+    - name: Sync and build
+      run: |
+        npm run sync-language
+        npm run build
+
+    - name: Download artifacts
+      uses: actions/download-artifact@v4
+      with:
+        name: mage-language-20.x.vsix
+        path: ./artifacts
+
+    - name: Get package version
+      id: package_version
+      run: echo "version=$(node -p "require('./package.json').version")" >> $GITHUB_OUTPUT
+
+    - name: Create Release
+      if: github.event_name == 'workflow_dispatch'
+      uses: actions/create-release@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        tag_name: v${{ steps.package_version.outputs.version }}
+        release_name: Release v${{ steps.package_version.outputs.version }}
+        body: |
+          ## Changes
+          - Synced with latest Mage language definitions
+          - Updated syntax highlighting and language features
+          
+          ## Installation
+          Download the `.vsix` file and install using:
+          ```bash
+          code --install-extension mage-language-${{ steps.package_version.outputs.version }}.vsix
+          ```
+        draft: false
+        prerelease: false
+
+    - name: Publish to VS Code Marketplace
+      if: github.event_name == 'workflow_dispatch' && secrets.VSCE_TOKEN
+      run: |
+        npm install -g @vscode/vsce
+        vsce publish -p ${{ secrets.VSCE_TOKEN }}
+      env:
+        VSCE_TOKEN: ${{ secrets.VSCE_TOKEN }}
+
+  notify-updates:
+    needs: sync-and-build
+    runs-on: ubuntu-latest
+    if: always()
+    
+    steps:
+    - name: Notify about updates
+      if: needs.sync-and-build.result == 'success'
+      run: |
+        echo "✅ VSCode Extension sync and build completed successfully!"
+        echo "🔄 Language files synced from main repository"
+        echo "📦 Extension packaged and ready for release" 

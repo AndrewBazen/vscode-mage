@@ -1,0 +1,57 @@
+{
+  "mainRepo": {
+    "name": "mage-language",
+    "owner": "your-username",
+    "branch": "main",
+    "baseUrl": "https://github.com/your-username/mage-language",
+    "rawUrl": "https://raw.githubusercontent.com/your-username/mage-language/main"
+  },
+  "syncFiles": [
+    {
+      "source": "editor-support/vscode/syntaxes/mage.tmLanguage.json",
+      "destination": "syntaxes/mage.tmLanguage.json",
+      "required": true,
+      "backup": true
+    },
+    {
+      "source": "editor-support/vscode/language-configuration.json",
+      "destination": "language-configuration.json",
+      "required": true,
+      "backup": true
+    },
+    {
+      "source": "editor-support/vscode/snippets/mage.json",
+      "destination": "snippets/mage.json",
+      "required": false,
+      "backup": false
+    },
+    {
+      "source": "examples/basic.mage",
+      "destination": "test-example.mage",
+      "required": false,
+      "backup": false
+    }
+  ],
+  "validation": {
+    "grammar": {
+      "requiredFields": ["name", "scopeName", "patterns"],
+      "validatePatterns": true,
+      "validateRepository": true
+    },
+    "languageConfig": {
+      "requiredFields": ["comments", "brackets", "autoClosingPairs"],
+      "validateSyntax": true
+    }
+  },
+  "versioning": {
+    "autoUpdateVersion": true,
+    "versionFormat": "git-hash",
+    "preserveMajorMinor": true
+  },
+  "backup": {
+    "enabled": true,
+    "directory": ".grammar-backups",
+    "keepCount": 5,
+    "timestampFormat": "ISO"
+  }
+} 
