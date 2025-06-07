@@ -32,8 +32,8 @@
         ],
         "configuration": "./language-configuration.json",
         "icon": {
-          "light": "./icons/mage-light.svg",
-          "dark": "./icons/mage-dark.svg"
+          "light": "./icons/mage64.png",
+          "dark": "./icons/mage64.png"
         }
       }
     ],

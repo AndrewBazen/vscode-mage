@@ -150,12 +150,12 @@ jobs:
         prerelease: false
 
     - name: Publish to VS Code Marketplace
-      if: github.event_name == 'workflow_dispatch' && secrets.VSCE_TOKEN
+      if: github.event_name == 'workflow_dispatch'
       run: |
         npm install -g @vscode/vsce
-        vsce publish -p ${{ secrets.VSCE_TOKEN }}
+        vsce publish -p $VSCE_TOKEN
       env:
-        VSCE_TOKEN: ${{ secrets.VSCE_TOKEN }}
+        VSCE_TOKEN: $VSCE_TOKEN
 
   notify-updates:
     needs: sync-and-build

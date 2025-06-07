@@ -152,8 +152,7 @@ class MageCompletionProvider implements vscode.CompletionItemProvider {
         // Keywords
         const keywords = [
             'conjure', 'incant', 'curse', 'evoke', 'enchant', 'cast',
-            'scry', 'morph', 'lest', 'loop', 'chant',
-            'from', 'to', 'step', 'channel', 'recite', 'true', 'false'
+            'scry', 'morph', 'lest', 'loop', 'chant', 'yield', 'channel', 'recite', 'from', 'to', 'step', 'true', 'false'
         ];
 
         keywords.forEach(keyword => {
@@ -188,6 +187,66 @@ class MageCompletionProvider implements vscode.CompletionItemProvider {
                 name: 'scrymorph',
                 snippet: 'scry ${1:condition} {\n\t${2:// scry body}\n} morph ${3:other_condition} {\n\t${4:// morph body}\n} lest {\n\t${5:// lest body}\n}',
                 description: 'Full conditional chain'
+            },
+            {
+                name: 'incant',
+                snippet: 'incant "${1:message}"',
+                description: 'Output a message'
+            },
+            {
+                name: 'evoke',
+                snippet: 'evoke "${1:command}"',
+                description: 'Execute a shell command'
+            },
+            {
+                name: 'cast',
+                snippet: 'cast ${1:function_name}(${2:parameters})',
+                description: 'Call a function'
+            },
+            {
+                name: 'yield',
+                snippet: 'yield ${1:value}',
+                description: 'Return a value from a function'
+            },
+            {
+                name: 'channel',
+                snippet: 'channel ${1:channel_name} {\n\t${2:// channel body}\n}',
+                description: 'Create a channel'
+            },
+            {
+                name: 'recite',
+                snippet: 'recite ${1:message}',
+                description: 'Output a message'
+            },
+            {
+                name: 'from',
+                snippet: 'from ${1:start} to ${2:end}',
+                description: 'For loop'
+            },
+            {
+                name: 'to',
+                snippet: 'to ${1:end}',
+                description: 'For loop'
+            },
+            {
+                name: 'step',
+                snippet: 'step ${1:step}',
+                description: 'For loop'
+            },
+            {
+                name: 'true',
+                snippet: 'true',
+                description: 'Boolean value'
+            },
+            {
+                name: 'false',
+                snippet: 'false',
+                description: 'Boolean value'
+            },
+            {
+                name: 'conjure',
+                snippet: 'conjure ${1:variable_name} = ${2:value}',
+                description: 'Create a new variable'
             }
         ];
 
@@ -221,7 +280,15 @@ class MageHoverProvider implements vscode.HoverProvider {
             'scry': 'Magical conditional statement (if)\n\nExample: `scry x > 0 { incant "Positive!" }`',
             'morph': 'Else-if clause for scry\n\nExample: `scry x > 0 { incant "Positive!" } morph x == 0 { incant "Zero!" }`',
             'lest': 'Else clause for scry\n\nExample: `scry x > 0 { incant "Positive!" } lest { incant "Not positive!" }`',
-            'loop': 'Basic loop (3 iterations)\n\nExample: `loop { incant "Looping!" }`'
+            'loop': 'Basic loop (3 iterations)\n\nExample: `loop { incant "Looping!" }`',
+            'yield': 'Returns a value from a function\n\nExample: `yield 42`',
+            'channel': 'Creates a channel\n\nExample: `channel myChannel { incant "Channel created!" }`',
+            'recite': 'Outputs a message\n\nExample: `recite "Hello, World!"`',
+            'from': 'For loop start\n\nExample: `from 0 to 5`',
+            'to': 'For loop end\n\nExample: `to 5`',
+            'step': 'For loop step\n\nExample: `step 1`',
+            'true': 'Boolean value\n\nExample: `true`',
+            'false': 'Boolean value\n\nExample: `false`',
         };
 
         if (keywordDescriptions[word]) {

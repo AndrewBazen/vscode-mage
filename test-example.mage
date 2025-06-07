@@ -56,7 +56,7 @@ enchant cast_healing_spell(target) {
 enchant calculate_damage(base_damage, multiplier) {
     conjure total = base_damage * multiplier
     incant "💥 Total damage: $total"
-    # Functions can return values (future feature)
+    yield total
 }
 
 # Function calls
