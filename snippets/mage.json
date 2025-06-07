@@ -1,0 +1,174 @@
+{
+  "Hello World": {
+    "prefix": "hello",
+    "body": [
+      "incant \"Hello, magical world!\""
+    ],
+    "description": "Print Hello World in mage"
+  },
+  "Variable Declaration": {
+    "prefix": "conjure",
+    "body": [
+      "conjure ${1:variable_name} = ${2:value}"
+    ],
+    "description": "Declare a variable with conjure"
+  },
+  "Print Statement": {
+    "prefix": "incant",
+    "body": [
+      "incant \"${1:message}\""
+    ],
+    "description": "Print a message with incant"
+  },
+  "Function Call": {
+    "prefix": "cast",
+    "body": [
+      "cast ${1:function_name}(${2:arguments})"
+    ],
+    "description": "Call a function with cast"
+  },
+  "If Statement": {
+    "prefix": "scry",
+    "body": [
+      "scry ${1:condition} {",
+      "    ${2:// code}",
+      "}"
+    ],
+    "description": "If statement with scry"
+  },
+  "If-Else Statement": {
+    "prefix": "scrylest",
+    "body": [
+      "scry ${1:condition} {",
+      "    ${2:// if true}",
+      "} lest {",
+      "    ${3:// if false}",
+      "}"
+    ],
+    "description": "If-else statement with scry-lest"
+  },
+  "If-Else-If Statement": {
+    "prefix": "scrymorph",
+    "body": [
+      "scry ${1:condition1} {",
+      "    ${2:// first condition}",
+      "} morph ${3:condition2} {",
+      "    ${4:// second condition}",
+      "} lest {",
+      "    ${5:// else}",
+      "}"
+    ],
+    "description": "If-else-if statement with scry-morph-lest"
+  },
+  "For Loop": {
+    "prefix": "chant",
+    "body": [
+      "chant ${1:i} from ${2:1} to ${3:10} {",
+      "    ${4:// loop body}",
+      "}"
+    ],
+    "description": "For loop with chant"
+  },
+  "For Loop with Step": {
+    "prefix": "chantstep",
+    "body": [
+      "chant ${1:i} from ${2:1} to ${3:10} step ${4:2} {",
+      "    ${5:// loop body}",
+      "}"
+    ],
+    "description": "For loop with step"
+  },
+  "Function Definition": {
+    "prefix": "enchant",
+    "body": [
+      "enchant ${1:function_name}(${2:parameters}) {",
+      "    ${3:// function body}",
+      "}"
+    ],
+    "description": "Define a function with enchant"
+  },
+  "File Operations": {
+    "prefix": "fileops",
+    "body": [
+      "scry file_exists(\"${1:filename}\") {",
+      "    conjure content = read_file(\"${1:filename}\")",
+      "    incant \"File content: \\$content\"",
+      "} lest {",
+      "    incant \"File does not exist\"",
+      "}"
+    ],
+    "description": "Basic file operations"
+  },
+  "Platform Detection": {
+    "prefix": "platform",
+    "body": [
+      "conjure os = platform()",
+      "scry os == \"linux\" {",
+      "    incant \"Running on Linux! 🐧\"",
+      "} morph os == \"windows\" {",
+      "    incant \"Running on Windows! 🪟\"",
+      "} morph os == \"macos\" {",
+      "    incant \"Running on macOS! 🍎\"",
+      "} lest {",
+      "    incant \"Unknown platform: \\$os\"",
+      "}"
+    ],
+    "description": "Cross-platform detection"
+  },
+  "Package Management": {
+    "prefix": "package",
+    "body": [
+      "# Initialize project",
+      "cast package_init(\"${1:project_name}\")",
+      "",
+      "# Add dependencies",
+      "cast package_add(\"${2:package_name}\", \"latest\", false)",
+      "",
+      "# Install dependencies",
+      "cast package_install()"
+    ],
+    "description": "Basic package management workflow"
+  },
+  "Environment Variables": {
+    "prefix": "env",
+    "body": [
+      "conjure ${1:var_name} = get_env(\"${2:ENV_VAR_NAME}\")",
+      "scry ${1:var_name} != \"\" {",
+      "    incant \"Environment variable found: \\$${1:var_name}\"",
+      "} lest {",
+      "    incant \"Environment variable not set\"",
+      "}"
+    ],
+    "description": "Environment variable handling"
+  },
+  "Directory Operations": {
+    "prefix": "dirops",
+    "body": [
+      "conjure dir_name = \"${1:directory_name}\"",
+      "cast ensure_directory(dir_name)",
+      "",
+      "scry directory_exists(dir_name) {",
+      "    incant \"Directory created: \\$dir_name\"",
+      "} lest {",
+      "    incant \"Failed to create directory\"",
+      "}"
+    ],
+    "description": "Directory operations"
+  },
+  "Script Header": {
+    "prefix": "header",
+    "body": [
+      "#!/usr/bin/env mage",
+      "",
+      "# ${1:Script Description}",
+      "# Author: ${2:Your Name}",
+      "# Date: ${3:$(date)}",
+      "",
+      "incant \"🔮 ${4:Script Name}\"",
+      "incant \"${'='.repeat(${4:Script Name}.length + 4)}\"",
+      "",
+      "${0:// Your code here}"
+    ],
+    "description": "Mage script header template"
+  }
+} 
