@@ -83,12 +83,19 @@ jobs:
 
     - name: Package extension
       run: npm run package
+      id: package
+
+    - name: Get VSIX filename
+      id: vsix_name
+      run: |
+        VSIX_FILE=$(ls *.vsix)
+        echo "vsix_file=$VSIX_FILE" >> $GITHUB_OUTPUT
 
     - name: Upload VSIX artifact
       uses: actions/upload-artifact@v4
       with:
         name: mage-language.vsix
-        path: '*.vsix'
+        path: ${{ steps.vsix_name.outputs.vsix_file }}
         retention-days: 30
 
     - name: Commit and push changes (if any)
@@ -132,6 +139,12 @@ jobs:
         name: mage-language.vsix
         path: .
 
+    - name: Get VSIX filename
+      id: vsix_name
+      run: |
+        VSIX_FILE=$(ls *.vsix)
+        echo "vsix_file=$VSIX_FILE" >> $GITHUB_OUTPUT
+
     - name: Get package version
       id: package_version
       run: echo "version=$(node -p "require('./package.json').version")" >> $GITHUB_OUTPUT
@@ -165,8 +178,8 @@ jobs:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
         upload_url: ${{ steps.create_release.outputs.upload_url }}
-        asset_path: mage-language.vsix
-        asset_name: mage-language-${{ steps.package_version.outputs.version }}.vsix
+        asset_path: ${{ steps.vsix_name.outputs.vsix_file }}
+        asset_name: ${{ steps.vsix_name.outputs.vsix_file }}
         asset_content_type: application/octet-stream
 
   notify-updates:
