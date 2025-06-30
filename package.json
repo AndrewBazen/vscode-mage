@@ -2,7 +2,7 @@
   "name": "mage-language",
   "displayName": "Mage Language Support",
   "description": "Language support for the Mage scripting language - magic-themed cross-platform scripting",
-  "version": "0.1.0-9c2882f",
+  "version": "0.1.0-8b2e24d",
   "publisher": "mage-lang",
   "engines": {
     "vscode": "^1.74.0"
